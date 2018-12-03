@@ -1,0 +1,67 @@
+﻿@using MVCApp.Models
+@model IEnumerable<MyTask>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var tasks = Model as List<MyTask>;
+    var i = 1;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="col-md-11">Available tasks</h1>
+        <h1 class="col-md-1 text-center">@Html.ActionLink("+", "Create")</h1>
+        <section>
+            <ul style="list-style: none" class="col-md-12">
+                @{
+                    if (tasks != null && tasks.Count != 0)
+                    {
+                        foreach (var task in tasks)
+                        {
+                            string color = "white";
+                            switch (task.Level)
+                            {
+                                case 0:
+                                    color = "green";
+                                    break;
+                                case 1:
+                                    color = "yellow";
+                                    break;
+                                case 2:
+                                    color = "orange";
+                                    break;
+                            }
+                            <li style="border: 3px solid @color; border-radius: 10px; margin-top: 15px; padding: 10px; margin-left: -25px;">
+                                <h2>
+                                    Task #@(i++): @task.Title
+                                </h2>
+                                <p>
+                                    Description: @task.Description
+                                </p>
+                                <section class="row">
+                                    <div class="col-md-4">
+                                        <input type="button" value="Edit" class="btn-warning" onclick="location.href='@Url.Action("Edit", "MyTasks", new {id = task.Id})'" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="button" value="Delete" class="btn-danger" onclick="location.href='@Url.Action("Delete", "MyTasks", new {id = task.Id})'" />
+                                    </div>
+                                    
+                                    <div class="col-md-4">
+                                        <span class="info">Is done: <u>@task.IsDone</u></span>
+                                    </div>
+                                </section>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        var text = "No available tasks... You can ";
+                        @text
+                        @Html.ActionLink("create the first task right", "Create")
+                    }
+                }
+            </ul>
+        </section>
+    </div>
+</div>

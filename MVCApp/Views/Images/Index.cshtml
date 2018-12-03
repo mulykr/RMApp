@@ -1,0 +1,27 @@
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<MVCApp.Models.GalleryItem>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Available images (@Model.Count())</h1>
+<h5>@Html.ActionLink("Upload new image", "Index", "Home") | @Html.ActionLink("Show only my items", "MyImages", "Images")</h5>
+<div class="row">
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+    <div class="col-lg-4">
+        <img src="@Model.ToArray()[i].Uri" height="200" class="myimage thumbnail" style="width: 100%;" />
+        @if (Model.ToArray()[i].AuthorId == null || Model.ToArray()[i].AuthorId != User.Identity.GetUserId())
+        {
+            <button class="btn-default col-lg-12 btn-sm">@Html.ActionLink("View", "ViewImage", new { uri = Model.ToArray()[i].Uri })</button>
+        }
+        else
+        {
+            <button class="btn-default col-lg-4 btn-sm">@Html.ActionLink("Delete", "RemoveImage", new { uri = Model.ToArray()[i].Uri })</button>
+            <button class="btn-default col-lg-4 btn-sm">@Html.ActionLink("View", "ViewImage", new { uri = Model.ToArray()[i].Uri })</button>
+            <button class="btn-default col-lg-4 btn-sm">@Html.ActionLink("Edit", "EditImage", new { id = Model.ToArray()[i].Uri.Remove(0, Model.ToArray()[i].Uri.LastIndexOf('/')) })</button>
+        }
+    </div>
+    }
+</div>

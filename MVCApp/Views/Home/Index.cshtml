@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<div class="jumbotron">
+    <div class="row">
+        <h1>Welcome, @User.Identity.Name</h1>
+        <p>You can manage your tasks on @Html.ActionLink("my tasks", "Index", "MyTasks") page or upload images right here</p>
+        <div class="col-lg-6">
+            <form method="post" enctype="multipart/form-data">
+                <input type="text" name="name" placeholder="Name" class="form-control"/>
+                <input type="file" name="image" accept=".jpg, .jpeg, .png, .tiff" class="form-control"/>
+                <textarea name="description" placeholder="Provide some description, please" class="form-control" rows="20"></textarea>
+                <label>Is public:</label> <input type="number" min="0" max="1" value="0" name="isPublic" />
+                <hr/>
+                @if (Model != null)
+                {
+                    <span class="label-success">Success, file: @Model</span>
+                    <br/>
+                }
+                <input class="btn btn-primary" type="submit" value="Go!"/>
+                <br/>
+            </form>
+        </div>
+        <div class="col-lg-6">
+            <img src="https://csb662439ab9d22x4ae6x85c.blob.core.windows.net/images/arttree.png" class="myimage" style="display: block; width: 100%; border-radius: 0.5rem;"/>
+        </div>
+    </div>
+</div>
